@@ -32,12 +32,12 @@ class UserController extends ApiController
         $request = $request->request->all();
         $user = new User();
 
-        $userExist = (bool)$this->userRepository->findOneBy(['username' => $request['username']]);
-        if ($userExist) {
-            return $this->respondValidationError('User with this username is already exist');
-        }
-
         try {
+            $userExist = (bool)$this->userRepository->findOneBy(['username' => $request['username']]);
+            if ($userExist) {
+                return $this->respondValidationError('User with this username is already exist');
+            }
+
             if ($request['username'] == "" || $request['password'] == ""){
                 throw new Exception();
             }

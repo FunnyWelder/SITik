@@ -50,12 +50,12 @@ class TodoController extends ApiController
         $request = $request->request->all();
         $todo = new todo();
 
-        $author = $this->userRepository->find($request['author_id']);
-        if (!$author) {
-            return $this->respondNotFound("Author not found");
-        }
-
         try {
+            $author = $this->userRepository->find($request['author_id']);
+            if (!$author) {
+                return $this->respondNotFound("Author not found");
+            }
+
             $todo
                 ->setDescription($request['description'])
                 ->setDone(false)
