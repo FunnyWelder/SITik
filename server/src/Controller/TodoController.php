@@ -123,7 +123,7 @@ class TodoController extends ApiController
 
         $arrayTodo = [];
         foreach ($todos as $todo) {
-            $arrayTodo[] = $todoPreviewer->preview($todo);
+            $arrayTodo[] = $todoPreviewer->previewSelf($todo);
         }
 
         return $this->response($arrayTodo);
@@ -153,7 +153,7 @@ class TodoController extends ApiController
         }
     }
 
-    #[Route('/{todo_id}', name: 'edit_self', requirements: ['todo_id' => '\d+'], methods: ['PUT'])]
+    #[Route('/self/{todo_id}', name: 'edit_self', requirements: ['todo_id' => '\d+'], methods: ['PUT'])]
     public function editSelf(Request $request, $todo_id): JsonResponse
     {
         $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);

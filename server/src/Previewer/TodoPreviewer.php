@@ -24,4 +24,14 @@ class TodoPreviewer
             "author" => $this->userPreviewer->preview($todo->getAuthor())
         ];
     }
+
+    public function previewSelf(Todo $todo): array
+    {
+        return [
+            "id" => $todo->getId(),
+            "username" => $todo->getDateCreated(),
+            "description" => $todo->getDescription(),
+            "done" => $todo->getDone()
+        ];
+    }
 }
