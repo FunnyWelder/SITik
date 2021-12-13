@@ -36,6 +36,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private string $password;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?DateTimeInterface $deletedAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,5 +109,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getDeletedAt(): ?DateTimeInterface
+    {
+        return $this->deletedAt;
     }
 }

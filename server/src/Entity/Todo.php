@@ -39,6 +39,11 @@ class Todo
      */
     private ?User $author;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?DateTimeInterface $deletedAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,5 +95,10 @@ class Todo
         $this->author = $author;
 
         return $this;
+    }
+
+    public function getDeletedAt(): ?DateTimeInterface
+    {
+        return $this->deletedAt;
     }
 }
