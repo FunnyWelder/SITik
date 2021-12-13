@@ -16,7 +16,7 @@ class Todo
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="boolean")

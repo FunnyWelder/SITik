@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
