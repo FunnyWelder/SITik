@@ -65,6 +65,8 @@ class TodoController extends ApiController
             return $this->respondNotFound("Todo not found");
         }
 
+        $this->em->getFilters()->disable('softdeleteable');
+
         return $this->response($todoPreviewer->preview($todo));
     }
 
