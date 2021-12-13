@@ -10,11 +10,11 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211213091155 extends AbstractMigration
+final class Version20211213091155_initDataBase extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create database';
     }
 
     public function up(Schema $schema): void
