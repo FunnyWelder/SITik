@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TodoRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,23 +21,23 @@ class Todo
     /**
      * @ORM\Column(type="boolean")
      */
-    private $done;
+    private ?bool $done;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateCreated;
+    private ?DateTimeInterface $dateCreated;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author;
 
     public function getId(): ?int
     {
@@ -67,12 +68,12 @@ class Todo
         return $this;
     }
 
-    public function getDateCreated(): ?\DateTimeInterface
+    public function getDateCreated(): ?DateTimeInterface
     {
         return $this->dateCreated;
     }
 
-    public function setDateCreated(\DateTimeInterface $dateCreated): self
+    public function setDateCreated(DateTimeInterface $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
 
