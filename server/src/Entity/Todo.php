@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\TodoRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=TodoRepository::class)
+ * @Gedmo\SoftDeleteable (fieldName = "deletedAt", timeAware = false)
  */
 class Todo
 {

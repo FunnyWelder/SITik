@@ -9,17 +9,34 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: username
+        #app_user_provider:
+        #    entity:
+        #        class: App\Entity\User
+        #        property: username
+        jwt:
+            lexik_jwt: ~
     firewalls:
+        check:
+            #provider: app_user_provider
+            pattern: ^/token/check
+            stateless: true
+            json_login:
+                check_path: /token/check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        refresh:
+            #provider: app_user_provider
+            pattern: ^/token/refresh
+            stateless: true
+            refresh_jwt: ~
         dev:
+            #provider: app_user_provider
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            lazy: true
-            provider: app_user_provider
+            #lazy: true
+            #provider: jwt
+            jwt: ~
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -30,5 +47,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/token, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
