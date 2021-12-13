@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/user', name: 'user_')]
@@ -26,7 +27,7 @@ class UserController extends ApiController
     }
 
     #[Route(name: 'new', methods: ['POST'])]
-    public function new(Request $request): JsonResponse
+    public function new(UserPasswordHasherInterface $passwordEncoder, Request $request): JsonResponse
     {
         $request = $request->request->all();
         $user = new User();
@@ -43,7 +44,10 @@ class UserController extends ApiController
 
             $user
                 ->setUsername($request['username'])
-                ->setPassword($request['password']);
+                ->setPassword($passwordEncoder->hashPassword(
+                    $user,
+                    $request['password']
+                ));
 
             if (isset($request['roles'])) {
                 $user->setRoles($request['roles']);
@@ -70,7 +74,7 @@ class UserController extends ApiController
     }
 
     #[Route('/{user_id}', name: 'edit', requirements: ['user_id' => '\d+'], methods: ['PUT'])]
-    public function edit(Request $request, $user_id): JsonResponse
+    public function edit(UserPasswordHasherInterface $passwordEncoder, Request $request, $user_id): JsonResponse
     {
         $user = $this->userRepository->find($user_id);
         if (!$user) {
@@ -91,7 +95,10 @@ class UserController extends ApiController
                 $user->setUsername($request['username']);
             }
             if (isset($request['password'])) {
-                $user->setPassword($request['password']);
+                $user->setPassword($passwordEncoder->hashPassword(
+                    $user,
+                    $request['password']
+                ));
             }
             if (isset($request['roles'])) {
                 $user->setRoles($request['roles']);
