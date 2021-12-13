@@ -44,19 +44,12 @@ class UserController extends ApiController
 
             $user
                 ->setUsername($request['username'])
-                ->setPassword($passwordEncoder->hashPassword(
-                    $user,
-                    $request['password']
-                ));
-
-            if (isset($request['roles'])) {
-                $user->setRoles($request['roles']);
-            }
+                ->setPassword($passwordEncoder->hashPassword($user, $request['password']));
 
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->respondWithSuccess("User added successfully");
+            return $this->respondWithSuccess("Registration successfully");
         } catch (Exception) {
             return $this->respondValidationError();
         }
