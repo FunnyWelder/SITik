@@ -10,7 +10,7 @@ class TodoPreviewer
 
     public function __construct(
         UserPreviewer $userPreviewer
-    ){
+    ) {
         $this->userPreviewer = $userPreviewer;
     }
 

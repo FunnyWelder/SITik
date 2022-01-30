@@ -10,7 +10,7 @@ class FilePreviewer
 
     public function __construct(
         string $targetDirectory
-    ){
+    ) {
         $this->targetDirectory = $targetDirectory;
     }
 

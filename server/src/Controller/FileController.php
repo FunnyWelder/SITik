@@ -30,7 +30,7 @@ class FileController extends ApiController
         FileRepository $fileRepository,
         UserRepository $userRepository,
         string $targetDirectory,
-    ){
+    ) {
         $this->em = $em;
         $this->fileRepository = $fileRepository;
         $this->userRepository = $userRepository;
@@ -56,7 +56,7 @@ class FileController extends ApiController
 
         $fileSize = $uploadedFile->getSize();
         $fileName = $fileUploader->upload($uploadedFile);
-        if (is_null($fileName)){
+        if (is_null($fileName)) {
             return $this->respondWithErrors("File not uploaded");
         }
 

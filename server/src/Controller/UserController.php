@@ -21,7 +21,7 @@ class UserController extends ApiController
     public function __construct(
         EntityManagerInterface $em,
         UserRepository $userRepository
-    ){
+    ) {
         $this->em = $em;
         $this->userRepository = $userRepository;
     }
@@ -38,7 +38,7 @@ class UserController extends ApiController
                 return $this->respondValidationError('User with this username is already exist');
             }
 
-            if ($request['username'] == "" || $request['password'] == ""){
+            if ($request['username'] == "" || $request['password'] == "") {
                 throw new Exception();
             }
 

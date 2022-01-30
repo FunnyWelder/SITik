@@ -24,7 +24,7 @@ class TodoController extends ApiController
         EntityManagerInterface $em,
         TodoRepository $todoRepository,
         UserRepository $userRepository,
-    ){
+    ) {
         $this->em = $em;
         $this->todoRepository = $todoRepository;
         $this->userRepository = $userRepository;
