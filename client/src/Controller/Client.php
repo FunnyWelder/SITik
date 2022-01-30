@@ -4,6 +4,7 @@ namespace App\Client\Controller;
 
 use App\Client\Entity\User;
 use App\Client\Controller\ApiController;
+use CURLFile;
 
 class Client  extends ApiController
 {
@@ -99,6 +100,51 @@ class Client  extends ApiController
     public function deleteTodo(User $user, int $id)
     {
         $url = $this->url . '/todo/self/' . $id;
+        $token = $this->tokenRefresh($user);
+
+        return $this->deleteData($url, $token);
+    }
+
+
+    //Files---------------------------------------------
+
+    public function addFile(User $user, string $file)
+    {
+        if(!file_exists(realpath($file))) {
+            return [
+                'status' => 409,
+                'message' => "No such file"
+            ];
+        }
+
+        $body = [
+            'file' => new CURLFile($file),
+        ];
+        $url = $this->url . '/files';
+        $token = $this->tokenRefresh($user);
+
+        return $this->postFile($body, $url, $token);
+    }
+
+    public function showAllFiles(User $user)
+    {
+        $url = $this->url . '/files';
+        $token = $this->tokenRefresh($user);
+
+        return $this->getData($url, $token);
+    }
+
+    public function getFile(User $user, string $name)
+    {
+        $url = $this->url . '/files/' . $name;
+        $token = $this->tokenRefresh($user);
+
+        return $this->getData($url, $token);
+    }
+
+    public function deleteFile(User $user, string $name)
+    {
+        $url = $this->url . '/files/' . $name;
         $token = $this->tokenRefresh($user);
 
         return $this->deleteData($url, $token);
