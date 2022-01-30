@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     files_directory: '%kernel.project_dir%/public/uploads/'
+    uploads_directory: 'uploads/'
+    server_url: 'http://localhost:8000/'
 
 services:
     # default configuration for services in *this* file
@@ -28,6 +30,12 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%files_directory%'
+    App\Controller\FileController:
+        arguments:
+            $targetDirectory: '%files_directory%'
+    App\Previewer\FilePreviewer:
+        arguments:
+            $targetDirectory: '%server_url%%uploads_directory%'
 
     kernel.event_listener.json_request_transformer:
         class: App\EventListener\JsonRequestTransformerListener

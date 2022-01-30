@@ -26,6 +26,11 @@ class File
     private string $name;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $size;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private string $url;
@@ -59,6 +64,18 @@ class File
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+
+    public function setSize(int $size): self
+    {
+        $this->size = $size;
 
         return $this;
     }

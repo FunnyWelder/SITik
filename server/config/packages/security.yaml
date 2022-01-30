@@ -51,6 +51,7 @@ security:
         - { path: ^/token, roles: PUBLIC_ACCESS }
         - { path: ^/user, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/todo/self, roles: ROLE_USER }
+        - { path: ^/files, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_ADMIN }
 
     role_hierarchy:

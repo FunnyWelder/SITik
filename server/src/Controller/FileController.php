@@ -17,24 +17,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/file', name: 'file_')]
+#[Route('/files', name: 'files_')]
 class FileController extends ApiController
 {
     private EntityManagerInterface $em;
     private FileRepository $fileRepository;
     private UserRepository $userRepository;
+    private string $targetDirectory;
 
     public function __construct(
         EntityManagerInterface $em,
         FileRepository $fileRepository,
         UserRepository $userRepository,
+        string $targetDirectory,
     ){
         $this->em = $em;
         $this->fileRepository = $fileRepository;
         $this->userRepository = $userRepository;
+        $this->targetDirectory = $targetDirectory;
     }
 
-    #[Route('/files', name: 'new', methods: ['POST'])]
+    #[Route(name: 'new', methods: ['POST'])]
     public function new(Request $request, FileUploader $fileUploader): JsonResponse
     {
         $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
@@ -44,25 +47,28 @@ class FileController extends ApiController
             return $this->respondValidationError("File not set");
         }
 
+        $request = $request->request->all();
+
+        $fileExist = (bool)$this->fileRepository->findOneBy(['author'=>$author, 'name' => $request['filename']]);
+        if ($fileExist) {
+            return $this->respondValidationError("File with this name is already exist");
+        }
+
+        $fileSize = $uploadedFile->getSize();
         $fileName = $fileUploader->upload($uploadedFile);
         if (is_null($fileName)){
             return $this->respondWithErrors("File not uploaded");
         }
 
-        $request = $request->request->all();
         $file = new File();
 
         try {
-            $fileExist = (bool)$this->fileRepository->findOneBy(['author'=>$author, 'name' => $request['filename']]);
-            if (!$fileExist) {
-                return $this->respondValidationError("File with this name is already exist");
-            }
-
             $file
                 ->setName($request['filename'])
                 ->setUrl($fileName)
                 ->setDateCreated(new DateTime())
-                ->setAuthor($author);
+                ->setAuthor($author)
+                ->setSize($fileSize);
 
             $this->em->persist($file);
             $this->em->flush();
@@ -73,7 +79,7 @@ class FileController extends ApiController
         }
     }
 
-    #[Route('/files', name: 'show', methods: ['GET'])]
+    #[Route(name: 'show_all', methods: ['GET'])]
     public function showAllSelf(FilePreviewer $filePreviewer): JsonResponse
     {
         $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
@@ -83,13 +89,13 @@ class FileController extends ApiController
 
         $data = [];
         foreach ($files as $file) {
-            $data[] = $this->response($filePreviewer->preview($file));
+            $data[] = $filePreviewer->preview($file);
         }
 
         return $this->response($data);
     }
 
-    #[Route('/files/{filename}', name: 'show', methods: ['GET'])]
+    #[Route('/{filename}', name: 'show', methods: ['GET'])]
     public function showSelf($filename): BinaryFileResponse|JsonResponse
     {
         $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
@@ -98,10 +104,10 @@ class FileController extends ApiController
             return $this->respondNotFound("File not found");
         }
 
-        return new BinaryFileResponse($file->getUrl());
+        return new BinaryFileResponse($this->targetDirectory . $file->getUrl());
     }
 
-    #[Route('/files/{filename}', name: 'delete_self', methods: ['DELETE'])]
+    #[Route('/{filename}', name: 'delete', methods: ['DELETE'])]
     public function deleteSelf($filename): JsonResponse
     {
         $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
@@ -112,9 +118,9 @@ class FileController extends ApiController
 
         $filesystem = new Filesystem();
         try {
-            $filesystem->remove([$file->getUrl()]);
+            $filesystem->remove([$this->targetDirectory . $file->getUrl()]);
         } catch (IOExceptionInterface) {
-            return $this->respondWithErrors("Undeletable file");
+            return $this->respondWithErrors("Undeletable file!");
         }
 
         $this->em->remove($file);
