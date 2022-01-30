@@ -1,0 +1,19 @@
+{
+    "name": "slava/client",
+    "description": "client-php",
+    "type": "project",
+    "require": {
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Slava\\Client\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "FunnyWelder",
+            "email": "slavakuzm@mail.ru"
+        }
+    ]
+}
