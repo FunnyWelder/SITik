@@ -49,6 +49,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/token, roles: PUBLIC_ACCESS }
+        - { path: ^/health, roles: PUBLIC_ACCESS }
         - { path: ^/user, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/todo/self, roles: ROLE_USER }
         - { path: ^/files, roles: ROLE_USER }
