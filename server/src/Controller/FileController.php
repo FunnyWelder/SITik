@@ -13,8 +13,8 @@ use Exception;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/files', name: 'files_')]
@@ -40,7 +40,7 @@ class FileController extends ApiController
     #[Route(name: 'new', methods: ['POST'])]
     public function new(Request $request, FileUploader $fileUploader): JsonResponse
     {
-        $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
+        $author = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
 
         $uploadedFile = $request->files->get('uploadedFile');
         if (!isset($uploadedFile)) {
@@ -49,7 +49,7 @@ class FileController extends ApiController
 
         $request = $request->request->all();
 
-        $fileExist = (bool)$this->fileRepository->findOneBy(['author'=>$author, 'name' => $request['filename']]);
+        $fileExist = (bool)$this->fileRepository->findOneBy(['author' => $author, 'name' => $request['filename']]);
         if ($fileExist) {
             return $this->respondValidationError("File with this name is already exist");
         }
@@ -82,8 +82,8 @@ class FileController extends ApiController
     #[Route(name: 'show_all', methods: ['GET'])]
     public function showAllSelf(FilePreviewer $filePreviewer): JsonResponse
     {
-        $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
-        $files = $this->fileRepository->findBy(['author'=>$author]);
+        $author = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
+        $files = $this->fileRepository->findBy(['author' => $author]);
 
         $this->em->getFilters()->disable('softdeleteable');
 
@@ -98,8 +98,8 @@ class FileController extends ApiController
     #[Route('/{filename}', name: 'show', methods: ['GET'])]
     public function showSelf($filename): BinaryFileResponse|JsonResponse
     {
-        $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
-        $file = $this->fileRepository->findOneBy(['author'=>$author, 'name'=>$filename]);
+        $author = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
+        $file = $this->fileRepository->findOneBy(['author' => $author, 'name' => $filename]);
         if (!$file) {
             return $this->respondNotFound("File not found");
         }
@@ -110,8 +110,8 @@ class FileController extends ApiController
     #[Route('/{filename}', name: 'delete', methods: ['DELETE'])]
     public function deleteSelf($filename): JsonResponse
     {
-        $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
-        $file = $this->fileRepository->findOneBy(['author'=>$author, 'name'=>$filename]);
+        $author = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
+        $file = $this->fileRepository->findOneBy(['author' => $author, 'name' => $filename]);
         if (!$file) {
             return $this->respondNotFound("File not found");
         }

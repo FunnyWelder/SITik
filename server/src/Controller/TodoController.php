@@ -9,8 +9,8 @@ use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/todo', name: 'todo_')]
@@ -120,7 +120,7 @@ class TodoController extends ApiController
     #[Route('/self', name: 'show_self_all', methods: ['GET'])]
     public function showSelfAll(TodoPreviewer $todoPreviewer): JsonResponse
     {
-        $user = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
+        $user = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
         $todos = $this->todoRepository->findBy(['author' => $user]);
 
         $arrayTodo = [];
@@ -134,7 +134,7 @@ class TodoController extends ApiController
     #[Route('/self', name: 'new_self', methods: ['POST'])]
     public function newSelf(Request $request): JsonResponse
     {
-        $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
+        $author = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
 
         $request = $request->request->all();
         $todo = new todo();
@@ -158,8 +158,8 @@ class TodoController extends ApiController
     #[Route('/self/{todo_id}', name: 'edit_self', requirements: ['todo_id' => '\d+'], methods: ['PUT'])]
     public function editSelf(Request $request, $todo_id): JsonResponse
     {
-        $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
-        $todo = $this->todoRepository->findOneBy(['author'=>$author, 'id'=>$todo_id]);
+        $author = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
+        $todo = $this->todoRepository->findOneBy(['author' => $author, 'id' => $todo_id]);
         if (!$todo) {
             return $this->respondNotFound("Todo not found");
         }
@@ -185,8 +185,8 @@ class TodoController extends ApiController
     #[Route('/self/{todo_id}', name: 'delete_self', requirements: ['todo_id' => '\d+'], methods: ['DELETE'])]
     public function deleteSelf($todo_id): JsonResponse
     {
-        $author = $this->userRepository->findOneBy(['username'=>$this->getUser()->getUserIdentifier()]);
-        $todo = $this->todoRepository->findOneBy(['author'=>$author, 'id'=>$todo_id]);
+        $author = $this->userRepository->findOneBy(['username' => $this->getUser()->getUserIdentifier()]);
+        $todo = $this->todoRepository->findOneBy(['author' => $author, 'id' => $todo_id]);
         if (!$todo) {
             return $this->respondNotFound("Todo not found");
         }

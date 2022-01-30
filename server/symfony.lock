@@ -5,6 +5,12 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
+    "composer/pcre": {
+        "version": "1.0.1"
+    },
+    "composer/xdebug-handler": {
+        "version": "2.0.4"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -157,6 +163,9 @@
     "nikic/php-parser": {
         "version": "v4.13.2"
     },
+    "pdepend/pdepend": {
+        "version": "2.10.2"
+    },
     "phar-io/manifest": {
         "version": "2.0.3"
     },
@@ -171,6 +180,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.5.1"
+    },
+    "phpmd/phpmd": {
+        "version": "2.11.1"
     },
     "phpspec/prophecy": {
         "version": "v1.15.0"
@@ -283,6 +295,18 @@
         },
         "files": [
             "config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.6",
+            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
+        },
+        "files": [
+            "phpcs.xml.dist"
         ]
     },
     "stof/doctrine-extensions-bundle": {
@@ -651,6 +675,9 @@
     },
     "symfony/yaml": {
         "version": "6.1.x-dev"
+    },
+    "symplify/easy-coding-standard": {
+        "version": "10.0.19"
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
