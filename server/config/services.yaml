@@ -36,6 +36,9 @@ services:
     App\Previewer\FilePreviewer:
         arguments:
             $targetDirectory: '%server_url%%uploads_directory%'
+    App\Service\HealthService:
+        arguments:
+            $appEnv: '%kernel.environment%'
 
     kernel.event_listener.json_request_transformer:
         class: App\EventListener\JsonRequestTransformerListener
