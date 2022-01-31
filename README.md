@@ -15,5 +15,10 @@
 
 Решения:
 1. [json Rest API Server](solutions/solution1_JsonRestAPIServer.md)
-2. [Rest API File Storage Server](solutions/solution3_RestAPIFileStorageServer.md)
-3. [Improve It](solutions/solution5_ImproveIt.md)
+2. [json Rest API Client](client)
+3. [Rest API File Storage Server](solutions/solution3_RestAPIFileStorageServer.md)
+4. [Rest API File Storage Client](client)
+5. [Improve It](solutions/solution5_ImproveIt.md)
+6. [Dev/Prod & DIC](solutions/solution6_DevProd&DIC.md)
+7. [ssh+git DnD](scripts)
+8. [git hooks](solutions/solutions8_GitHooks.md)
