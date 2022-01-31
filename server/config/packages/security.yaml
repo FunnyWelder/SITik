@@ -50,6 +50,7 @@ security:
     access_control:
         - { path: ^/token, roles: PUBLIC_ACCESS }
         - { path: ^/health, roles: PUBLIC_ACCESS }
+        - { path: ^/test, roles: PUBLIC_ACCESS }
         - { path: ^/user, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/todo/self, roles: ROLE_USER }
         - { path: ^/files, roles: ROLE_USER }
